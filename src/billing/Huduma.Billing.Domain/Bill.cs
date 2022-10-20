@@ -48,9 +48,9 @@ namespace Huduma.Billing.Domain
         private bool AmountIsInExcess(Money amountReceived)
         {
             return amountReceived.Value > Charge.Value ||
-                   amountReceived.Value > TotalPaid;
+                   (amountReceived.Value + TotalPaid) > Charge.Value;
         }
-        
+
         private double ExcessAmount(Money amountDue)
         {
             return amountDue.Value - Charge.Value;
