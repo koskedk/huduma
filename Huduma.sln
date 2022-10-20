@@ -1,0 +1,64 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Huduma.Billing.Domain", "src\billing\Huduma.Billing.Domain\Huduma.Billing.Domain.csproj", "{2B574D4E-C4E4-4AEA-972B-B8F8DA9DB8A2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Huduma.Contracts", "src\contracts\Huduma.Contracts\Huduma.Contracts.csproj", "{7AD62797-FBC2-4CA8-BAF3-00BB1C66DDB5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{5EFD63E6-CDB3-40EE-9D78-39FEF90FF7B1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{9865E74A-CFC2-4928-878C-4A5542B26013}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "billing", "billing", "{C4046EFC-732A-4040-8B5C-523C3721173C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "contracts", "contracts", "{CA715311-4E96-4A24-B884-2D1ABC71BA46}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Huduma.Billing.Application", "src\billing\Huduma.Billing.Application\Huduma.Billing.Application.csproj", "{B5E2A998-EEEE-44C2-9B0D-22AD2444AE67}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Huduma.Billing.Application.Tests", "tests\Huduma.Billing.Application.Tests\Huduma.Billing.Application.Tests.csproj", "{5FD57983-1753-4279-9575-0D3A700761DF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Huduma.Billing.Infrastructure", "src\billing\Huduma.Billing.Infrastructure\Huduma.Billing.Infrastructure.csproj", "{4F5AFDA9-115C-4F94-9667-E9084B848E1F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Huduma.Billing.Infrastructure.Tests", "tests\Huduma.Billing.Infrastructure.Tests\Huduma.Billing.Infrastructure.Tests.csproj", "{65488911-0184-4FBD-AAA5-2A8F79AF8142}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2B574D4E-C4E4-4AEA-972B-B8F8DA9DB8A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2B574D4E-C4E4-4AEA-972B-B8F8DA9DB8A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2B574D4E-C4E4-4AEA-972B-B8F8DA9DB8A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2B574D4E-C4E4-4AEA-972B-B8F8DA9DB8A2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7AD62797-FBC2-4CA8-BAF3-00BB1C66DDB5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7AD62797-FBC2-4CA8-BAF3-00BB1C66DDB5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7AD62797-FBC2-4CA8-BAF3-00BB1C66DDB5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7AD62797-FBC2-4CA8-BAF3-00BB1C66DDB5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B5E2A998-EEEE-44C2-9B0D-22AD2444AE67}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B5E2A998-EEEE-44C2-9B0D-22AD2444AE67}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B5E2A998-EEEE-44C2-9B0D-22AD2444AE67}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B5E2A998-EEEE-44C2-9B0D-22AD2444AE67}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5FD57983-1753-4279-9575-0D3A700761DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5FD57983-1753-4279-9575-0D3A700761DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5FD57983-1753-4279-9575-0D3A700761DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5FD57983-1753-4279-9575-0D3A700761DF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4F5AFDA9-115C-4F94-9667-E9084B848E1F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4F5AFDA9-115C-4F94-9667-E9084B848E1F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4F5AFDA9-115C-4F94-9667-E9084B848E1F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4F5AFDA9-115C-4F94-9667-E9084B848E1F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{65488911-0184-4FBD-AAA5-2A8F79AF8142}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{65488911-0184-4FBD-AAA5-2A8F79AF8142}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{65488911-0184-4FBD-AAA5-2A8F79AF8142}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{65488911-0184-4FBD-AAA5-2A8F79AF8142}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{C4046EFC-732A-4040-8B5C-523C3721173C} = {5EFD63E6-CDB3-40EE-9D78-39FEF90FF7B1}
+		{CA715311-4E96-4A24-B884-2D1ABC71BA46} = {5EFD63E6-CDB3-40EE-9D78-39FEF90FF7B1}
+		{2B574D4E-C4E4-4AEA-972B-B8F8DA9DB8A2} = {C4046EFC-732A-4040-8B5C-523C3721173C}
+		{7AD62797-FBC2-4CA8-BAF3-00BB1C66DDB5} = {CA715311-4E96-4A24-B884-2D1ABC71BA46}
+		{B5E2A998-EEEE-44C2-9B0D-22AD2444AE67} = {C4046EFC-732A-4040-8B5C-523C3721173C}
+		{5FD57983-1753-4279-9575-0D3A700761DF} = {9865E74A-CFC2-4928-878C-4A5542B26013}
+		{4F5AFDA9-115C-4F94-9667-E9084B848E1F} = {C4046EFC-732A-4040-8B5C-523C3721173C}
+		{65488911-0184-4FBD-AAA5-2A8F79AF8142} = {9865E74A-CFC2-4928-878C-4A5542B26013}
+	EndGlobalSection
+EndGlobal
