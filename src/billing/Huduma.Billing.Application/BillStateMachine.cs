@@ -16,17 +16,16 @@ namespace Huduma.Billing.Application
             Event(() =>
                     ClearBill, x => x.CorrelateById(context => context.Message.BillNo)
             );
-            Event(() =>
-                    CheckBill, 
+            
+            Event(() => CheckBill,
                 x =>
                 {
                     x.CorrelateById(context => context.Message.BillNo);
                     x.OnMissingInstance(m =>
-                    {
-                        return m.ExecuteAsync(r => r.RespondAsync<BillNotFound>(new { r.Message.BillNo }));
-                    });
+                        m.ExecuteAsync(a => a.RespondAsync<BillNotFound>(a.Message)));
                 });
 
+    
             InstanceState(x => x.CurrentState);
 
             Initially(
