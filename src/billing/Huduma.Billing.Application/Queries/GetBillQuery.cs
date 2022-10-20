@@ -2,7 +2,6 @@
 using System.Threading;
 using System.Threading.Tasks;
 using CSharpFunctionalExtensions;
-using Huduma.Billing.Domain;
 using Huduma.Contracts;
 using MassTransit;
 using MediatR;

@@ -2,11 +2,13 @@
 using System.Reflection;
 using Huduma.Billing.Application;
 using Huduma.Billing.Domain;
+using Huduma.Contracts;
 using MassTransit;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
 namespace Huduma.Billing.Infrastructure
 {
@@ -14,7 +16,7 @@ namespace Huduma.Billing.Infrastructure
     {
         public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {
-            services.Configure<HudumaOptions>(configuration.GetSection(HudumaOptions.BusKey));
+            services.Configure<HudumaTransportOptions>(configuration.GetSection(HudumaTransportOptions.Key));
             services.AddDb(configuration);
             services.AddScoped<IBillRepository, BillRepository>();
             return services;
@@ -22,7 +24,7 @@ namespace Huduma.Billing.Infrastructure
     
         public static IServiceCollection AddEventBus(this IServiceCollection services, IConfiguration configuration)
         {
-            var busSettings = configuration.GetSection(HudumaOptions.BusKey).Get<HudumaOptions>();
+            var busSettings = configuration.GetSection(HudumaTransportOptions.Key).Get<HudumaTransportOptions>();
             var provider = configuration.GetSection("TransportProvider").Value;
         
             services.AddMassTransit(cfg =>
@@ -31,6 +33,7 @@ namespace Huduma.Billing.Infrastructure
                 {
                     cfg.AddSagaStateMachine<BillStateMachine, BillState>()
                         .InMemoryRepository();
+                    cfg.AddRequestClient<CheckBill>();
                 
                     cfg.SetKebabCaseEndpointNameFormatter();
                     
@@ -46,13 +49,15 @@ namespace Huduma.Billing.Infrastructure
                     cfg.AddSagaStateMachine<BillStateMachine, BillState>()
                         .DapperRepository(GetDbConnection(configuration));
                     
+                    cfg.AddRequestClient<CheckBill>();
+                    
                     cfg.SetKebabCaseEndpointNameFormatter();
                 
                     cfg.UsingRabbitMq((context,cfg) =>
                     {
-                        cfg.Host(busSettings.BusHost, busSettings.BusVhost, h => {
-                            h.Username(busSettings.BusUser);
-                            h.Password(busSettings.BusPass);
+                        cfg.Host(busSettings.Host, busSettings.Vhost, h => {
+                            h.Username(busSettings.User);
+                            h.Password(busSettings.Pass);
                         });
 
                         cfg.ConfigureEndpoints(context);
@@ -101,6 +106,13 @@ namespace Huduma.Billing.Infrastructure
                 return configuration.GetConnectionString("sqlserverConnection");
             }
             return configuration.GetConnectionString("sqliteConnection");
+        }
+        
+        public static void SetupDb(this IServiceProvider serviceProvider, IConfiguration configuration)
+        {
+            using var scope=serviceProvider.CreateScope();
+            using var ctx = scope.ServiceProvider.GetRequiredService<BillingDbContext>();
+            ctx.Database.Migrate();
         }
     }
 }

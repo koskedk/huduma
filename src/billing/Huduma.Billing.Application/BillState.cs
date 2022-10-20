@@ -1,10 +1,12 @@
 ﻿using System;
+using Dapper.Contrib.Extensions;
 using MassTransit;
 
 namespace Huduma.Billing.Application
 {
     public class BillState : SagaStateMachineInstance
     {
+        [ExplicitKey]
         public Guid CorrelationId { get; set; }
         public string CurrentState { get; set; }
         public string Client { get;  set; }

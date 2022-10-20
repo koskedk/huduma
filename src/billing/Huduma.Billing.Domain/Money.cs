@@ -6,8 +6,8 @@ namespace Huduma.Billing.Domain
 {
     public class Money:ValueObject
     {
-        public double Value { get; }
-        public string Currency { get; }
+        public double Value { get; private set; }
+        public string Currency { get;  private set;}
 
         private Money(){}
         private Money(double value, string currency="KES")

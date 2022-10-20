@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading.Tasks;
 using Huduma.Billing.Infrastructure;
 using Huduma.Contracts;
 using MassTransit;

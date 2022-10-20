@@ -7,16 +7,14 @@ namespace Huduma.Billing.Infrastructure
     {
         public DbSet<Bill> Bills { get; set; }
         public DbSet<Payment> Payments { get; set; }
-    
+
         public BillingDbContext(DbContextOptions<BillingDbContext> options) : base(options)
         {
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Bill>().OwnsOne(x => x.Charge);
-            modelBuilder.Entity<Payment>().OwnsOne(x => x.Amount);
-            base.OnModelCreating(modelBuilder);
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(BillingDbContext).Assembly);
         }
     }
 }
