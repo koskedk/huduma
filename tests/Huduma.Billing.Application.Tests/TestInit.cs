@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Huduma.Billing.Infrastructure;
+using Huduma.Contracts;
 using MassTransit;
 using MassTransit.Testing;
 using Microsoft.Extensions.Configuration;
@@ -72,6 +73,8 @@ namespace Huduma.Billing.Application.Tests
                 {
                     cfg.ConfigureEndpoints(context);
                 });
+                
+                cfg.AddRequestClient<CheckBill>();
                 
                 cfg.AddSagaStateMachine<BillStateMachine, BillState>();
             });

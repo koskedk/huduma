@@ -36,16 +36,19 @@ public class GetBillQueryTests
         var result = await _mediator.Send(new GetBillQuery(billNo));
         
         Assert.That(result.IsSuccess);
+        Assert.IsNotNull(result.Value);
         
-        Assert.That(await _testHarness.Consumed.Any<CheckBillRequested>());
-        Assert.That(await _sagaHarness.Consumed.Any<CheckBillRequested>());
+        Assert.That(await _sagaHarness.Consumed.Any<CheckBill>());
             
         var instance = _sagaHarness.Created.ContainsInState(billNo, _sagaHarness.StateMachine, _sagaHarness.StateMachine.Open);
         Assert.IsNotNull(instance, "Saga instance not found");
-        Assert.That(instance.CorrelationId, Is.EqualTo(billNo));
+        
+        Assert.That(instance.CorrelationId, Is.EqualTo(result.Value.BillNo));
+        Assert.That(instance.Client, Is.EqualTo(result.Value.Client));
+        Assert.That(instance.Amount, Is.EqualTo(result.Value.Amount));
 
-        Assert.IsTrue(await _testHarness.Published.Any<CheckBillRequested>());
-        Log.Debug($"{instance.ToString()}");
+        Assert.IsTrue(await _testHarness.Published.Any<CheckBill>());
+        Log.Debug($"{result.Value.Client}, Your Bill:{result.Value.Amount:C} [{instance.CurrentState}]");
     }
 
     
@@ -56,10 +59,9 @@ public class GetBillQueryTests
 
         var result = await _mediator.Send(new GetBillQuery(billNo));
         
-        Assert.That(result.IsSuccess);
+        Assert.That(result.IsFailure);
         
         Assert.That(await _testHarness.Consumed.Any<BillNotFound>());
-        Assert.That(await _sagaHarness.Consumed.Any<BillNotFound>());
             
         var instance = _sagaHarness.Created.ContainsInState(billNo, _sagaHarness.StateMachine, _sagaHarness.StateMachine.Open);
         Assert.IsNull(instance, "Saga instance exists found");
