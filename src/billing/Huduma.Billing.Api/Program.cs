@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Serilog;
+using Serilog.Events;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,6 +18,9 @@ IConfiguration configuration = builder.Configuration;
 builder.Logging.ClearProviders();
 // Serilog configuration        
 var logger = new LoggerConfiguration()
+    .MinimumLevel.Debug()
+    .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
+    .MinimumLevel.Override("Quartz", LogEventLevel.Information)
     .WriteTo.Console()
     .CreateLogger();
 // Register Serilog

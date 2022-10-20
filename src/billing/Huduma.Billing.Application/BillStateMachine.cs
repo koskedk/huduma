@@ -57,6 +57,19 @@ namespace Huduma.Billing.Application
                         { BillNo = context.Saga.CorrelationId, Amount = context.Saga.Amount }))
                     .TransitionTo(Paid)
             );
+            
+            During(Paid,
+                When(ReceivePayment)
+                    .Then(x =>
+                    {
+                        x.Saga.CorrelationId = x.Message.BillNo;
+                        x.Saga.Amount = x.Message.Amount;
+                    })
+                    .PublishAsync(context => context.Init<PaymentReceived>(new
+                        { BillNo = context.Saga.CorrelationId, Amount = context.Saga.Amount }))
+                    .TransitionTo(Paid)
+            );
+
 
             During(Paid,
                 When(ClearBill)

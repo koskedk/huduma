@@ -17,6 +17,7 @@ namespace Huduma.Billing.Domain
         public bool IsClosed => !IsOpen;
         public Guid BillNo => Id;
         public double Amount => Charge.Value;
+        public Money Balance => GetBalance();
 
         private Bill()
         {
@@ -54,6 +55,12 @@ namespace Huduma.Billing.Domain
         private double ExcessAmount(Money amountDue)
         {
             return amountDue.Value - Charge.Value;
+        }
+
+        private Money GetBalance()
+        {
+            var bal = Charge.Value - TotalPaid;
+            return Money.FromKes(bal);
         }
     }
 }
