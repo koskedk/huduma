@@ -38,6 +38,7 @@ builder.Services.AddApplication(configuration);
 
 var app = builder.Build();
 app.Services.SetupDb(configuration);
+app.Services.SetupStateDb(configuration);
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

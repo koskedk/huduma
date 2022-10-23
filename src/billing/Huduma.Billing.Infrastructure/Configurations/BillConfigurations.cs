@@ -2,17 +2,18 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Huduma.Billing.Infrastructure.Configurations;
-
-public class BillConfigurations:IEntityTypeConfiguration<Bill>
+namespace Huduma.Billing.Infrastructure.Configurations
 {
-    public void Configure(EntityTypeBuilder<Bill> builder)
+    public class BillConfigurations:IEntityTypeConfiguration<Bill>
     {
-        builder.Property(x => x.Client);
-        builder.OwnsOne(x => x.Charge, p =>
+        public void Configure(EntityTypeBuilder<Bill> builder)
         {
-            p.Property(a => a.Currency).HasMaxLength(10);
-        });
-        builder.HasIndex(x => x.Client);
+            builder.Property(x => x.Client);
+            builder.OwnsOne(x => x.Charge, p =>
+            {
+                p.Property(a => a.Currency).HasMaxLength(10);
+            });
+            builder.HasIndex(x => x.Client);
+        }
     }
 }

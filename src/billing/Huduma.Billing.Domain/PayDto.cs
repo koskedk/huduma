@@ -1,9 +1,10 @@
 ﻿using System;
 
-namespace Huduma.Billing.Domain;
-
-public class PayDto
+namespace Huduma.Billing.Domain
 {
-    public Guid BillNo { get; set; }
-    public double Amount { get; set; }
+    public class PayDto
+    {
+        public Guid BillNo { get; set; }
+        public double Amount { get; set; }
+    }
 }

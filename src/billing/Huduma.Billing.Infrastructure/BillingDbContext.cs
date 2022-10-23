@@ -1,4 +1,6 @@
-﻿using Huduma.Billing.Domain;
+﻿using System.Collections.Generic;
+using Huduma.Billing.Domain;
+using MassTransit.EntityFrameworkCoreIntegration;
 using Microsoft.EntityFrameworkCore;
 
 namespace Huduma.Billing.Infrastructure
@@ -15,6 +17,17 @@ namespace Huduma.Billing.Infrastructure
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(BillingDbContext).Assembly);
+        }
+    }
+    
+    public class BillingStateDbContext:SagaDbContext
+    {
+        public BillingStateDbContext(DbContextOptions<BillingStateDbContext> options) : base(options)
+        {
+        }
+
+        protected override IEnumerable<ISagaClassMap> Configurations {
+            get { yield return new BillStateConfiguration(); }
         }
     }
 }

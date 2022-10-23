@@ -2,16 +2,17 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Huduma.Billing.Infrastructure.Configurations;
-
-public class PaymentConfigurations:IEntityTypeConfiguration<Payment>
+namespace Huduma.Billing.Infrastructure.Configurations
 {
-    public void Configure(EntityTypeBuilder<Payment> builder)
+    public class PaymentConfigurations:IEntityTypeConfiguration<Payment>
     {
-        builder.Property(x => x.Id).HasMaxLength(50);
-        builder.OwnsOne(x => x.Amount, p =>
+        public void Configure(EntityTypeBuilder<Payment> builder)
         {
-            p.Property(a => a.Currency).HasMaxLength(10);
-        });
+            builder.Property(x => x.Id).HasMaxLength(50);
+            builder.OwnsOne(x => x.Amount, p =>
+            {
+                p.Property(a => a.Currency).HasMaxLength(10);
+            });
+        }
     }
 }

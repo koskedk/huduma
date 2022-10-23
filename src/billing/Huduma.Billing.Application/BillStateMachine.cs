@@ -57,7 +57,7 @@ namespace Huduma.Billing.Application
                         { BillNo = context.Saga.CorrelationId, Amount = context.Saga.Amount }))
                     .TransitionTo(Paid)
             );
-            
+
             During(Paid,
                 When(ReceivePayment)
                     .Then(x =>
@@ -83,7 +83,8 @@ namespace Huduma.Billing.Application
                     {
                         BillNo = context.CorrelationId,
                         Client = context.Saga.Client,
-                        Amount = context.Saga.Amount
+                        Amount = context.Saga.Amount,
+                        Status = context.Saga.CurrentState
                     }))
             );
         }

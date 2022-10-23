@@ -5,5 +5,6 @@
         Guid BillNo { get;  }
         string Client { get; }
         double Amount { get; }
+        string Status  { get; }
     }
 }

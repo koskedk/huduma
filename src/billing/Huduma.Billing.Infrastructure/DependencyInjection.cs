@@ -18,6 +18,7 @@ namespace Huduma.Billing.Infrastructure
         {
             services.Configure<HudumaTransportOptions>(configuration.GetSection(HudumaTransportOptions.Key));
             services.AddDb(configuration);
+            services.AddStateDb(configuration);
             services.AddScoped<IBillRepository, BillRepository>();
             return services;
         }
@@ -47,7 +48,11 @@ namespace Huduma.Billing.Infrastructure
                 {
                 
                     cfg.AddSagaStateMachine<BillStateMachine, BillState>()
-                        .DapperRepository(GetDbConnection(configuration));
+                        .EntityFrameworkRepository(r =>
+                        {
+                            r.ConcurrencyMode = ConcurrencyMode.Pessimistic; // or use Optimistic, which requires RowVersion
+                            r.ExistingDbContext<BillingStateDbContext>();
+                        });
                     
                     cfg.AddRequestClient<CheckBill>();
                     
@@ -91,28 +96,67 @@ namespace Huduma.Billing.Infrastructure
             }
             return services;
         }
+        
+        private static IServiceCollection AddStateDb(this IServiceCollection services, IConfiguration configuration)
+        {
+            var provider = configuration.GetSection("DatabaseProvider").Value;
+
+            if (provider.ToUpper() == "sqlite".ToUpper())
+            {
+                var cn = new SqliteConnection(configuration.GetConnectionString("sqliteStateConnection"));
+                cn.Open();
+                services.AddDbContext<BillingDbContext>(cfg => cfg.UseSqlite(cn));
+            }
+
+            if (provider.ToUpper() == "sqlserver".ToUpper())
+            {
+                var cns = configuration.GetConnectionString("sqlserverStateConnection");
+                services.AddDbContext<DbContext, BillingStateDbContext>((provider, builder) =>
+                {
+                    builder.UseSqlServer(cns, m =>
+                    {
+                        m.MigrationsAssembly(Assembly.GetExecutingAssembly().GetName().Name);
+                        m.MigrationsHistoryTable($"__{nameof(BillingStateDbContext)}");
+                    });
+                });
+            }
+            return services;
+        }
+
 
         private static string GetDbConnection(IConfiguration configuration)
         {
             var provider = configuration.GetSection("DatabaseProvider").Value;
 
             if (provider.ToUpper() == "sqlite".ToUpper())
-            {
                 return configuration.GetConnectionString("sqliteConnection");
-            }
 
             if (provider.ToUpper() == "sqlserver".ToUpper())
-            {
                 return configuration.GetConnectionString("sqlserverConnection");
-            }
+
             return configuration.GetConnectionString("sqliteConnection");
         }
         
         public static void SetupDb(this IServiceProvider serviceProvider, IConfiguration configuration)
         {
+            var provider = configuration.GetSection("DatabaseProvider").Value;
             using var scope=serviceProvider.CreateScope();
             using var ctx = scope.ServiceProvider.GetRequiredService<BillingDbContext>();
-            ctx.Database.Migrate();
+            if (provider.ToUpper() == "sqlite".ToUpper())
+                ctx.Database.EnsureCreated();
+            else
+                ctx.Database.Migrate();
+        }
+        
+        public static void SetupStateDb(this IServiceProvider serviceProvider, IConfiguration configuration)
+        {
+            var provider = configuration.GetSection("DatabaseProvider").Value;
+            using var scope=serviceProvider.CreateScope();
+            using var ctx = scope.ServiceProvider.GetRequiredService<BillingStateDbContext>();
+            if (provider.ToUpper() == "sqlite".ToUpper())
+                ctx.Database.EnsureCreated();
+            else
+                ctx.Database.Migrate();
         }
     }
 }
