@@ -1,6 +1,6 @@
 ﻿namespace Huduma.Contracts
 {
-    public interface CheckBillRequested
+    public interface CheckBill
     {
         Guid BillNo { get; }
     }

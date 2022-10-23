@@ -20,6 +20,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Huduma.Billing.Infrastructu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Huduma.Billing.Infrastructure.Tests", "tests\Huduma.Billing.Infrastructure.Tests\Huduma.Billing.Infrastructure.Tests.csproj", "{65488911-0184-4FBD-AAA5-2A8F79AF8142}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Huduma.Billing.Api", "src\billing\Huduma.Billing.Api\Huduma.Billing.Api.csproj", "{FFD88B19-95B1-42DD-AB9A-EED396F95CDA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -50,6 +52,10 @@ Global
 		{65488911-0184-4FBD-AAA5-2A8F79AF8142}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{65488911-0184-4FBD-AAA5-2A8F79AF8142}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{65488911-0184-4FBD-AAA5-2A8F79AF8142}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FFD88B19-95B1-42DD-AB9A-EED396F95CDA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FFD88B19-95B1-42DD-AB9A-EED396F95CDA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FFD88B19-95B1-42DD-AB9A-EED396F95CDA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FFD88B19-95B1-42DD-AB9A-EED396F95CDA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{C4046EFC-732A-4040-8B5C-523C3721173C} = {5EFD63E6-CDB3-40EE-9D78-39FEF90FF7B1}
@@ -60,5 +66,6 @@ Global
 		{5FD57983-1753-4279-9575-0D3A700761DF} = {9865E74A-CFC2-4928-878C-4A5542B26013}
 		{4F5AFDA9-115C-4F94-9667-E9084B848E1F} = {C4046EFC-732A-4040-8B5C-523C3721173C}
 		{65488911-0184-4FBD-AAA5-2A8F79AF8142} = {9865E74A-CFC2-4928-878C-4A5542B26013}
+		{FFD88B19-95B1-42DD-AB9A-EED396F95CDA} = {C4046EFC-732A-4040-8B5C-523C3721173C}
 	EndGlobalSection
 EndGlobal

@@ -2,7 +2,6 @@
 using System.Threading;
 using System.Threading.Tasks;
 using CSharpFunctionalExtensions;
-using Huduma.Billing.Domain;
 using Huduma.Contracts;
 using MassTransit;
 using MediatR;
@@ -10,7 +9,7 @@ using Serilog;
 
 namespace Huduma.Billing.Application.Queries
 {
-    public class GetBillQuery:IRequest<Result<BillState>>
+    public class GetBillQuery:IRequest<Result<BillStatus>>
     {
         public Guid BillNo { get; }
 
@@ -20,30 +19,37 @@ namespace Huduma.Billing.Application.Queries
         }
     }
 
-    public class GetBillQueryHandler : IRequestHandler<GetBillQuery,Result<BillState>>
+    public class GetBillQueryHandler : IRequestHandler<GetBillQuery,Result<BillStatus>>
     {
-        private readonly IBillRepository _repository;
-        private readonly IBus _bus;
+        private readonly IRequestClient<CheckBill> _client;
 
-        public GetBillQueryHandler(IBillRepository repository, IBus bus)
+        public GetBillQueryHandler(IRequestClient<CheckBill> client)
         {
-            _repository = repository;
-            _bus = bus;
+            _client = client;
         }
 
-        public async Task<Result<BillState>> Handle(GetBillQuery request, CancellationToken cancellationToken)
+        public async Task<Result<BillStatus>> Handle(GetBillQuery request, CancellationToken cancellationToken)
         {
 
             try
             {
-                var client = _bus.CreateRequestClient<CheckBillRequested>();
-                var response = await client.GetResponse<BillState>(new { BillNo = request.BillNo });
-                return Result.Success(response.Message);
+                var (status,notFound) = await _client.GetResponse<BillStatus,BillNotFound>(new { BillNo = request.BillNo });
+                if (status.IsCompletedSuccessfully)
+                {
+                    var respons = await status;
+                    return Result.Success(respons.Message);
+                }
+                else
+                {
+                    var respons = await notFound;
+                    throw new Exception($"Not Found {respons.Message.BillNo}");
+                }
+                
             }
             catch (Exception e)
             {
                 Log.Error(e,"Bill Query Error");
-                return Result.Failure<BillState>(e.Message);
+                return Result.Failure<BillStatus>(e.Message);
             }
         }
     }
